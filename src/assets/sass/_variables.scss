@@ -1,2 +1,14 @@
 $borderCol: rgba(128, 128, 128, 0.301);
 $btnBgCol: rgba(0, 0, 255, 0.527);
+$secBtnBgCol: rgba(255, 153, 0, 0.767);
+$dangerBtnCol: rgba(156, 4, 4, 0.781);
+
+@mixin btn {
+  padding: 1em 2em;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  font-weight: 700;
+  color: rgb(240, 239, 239);
+  cursor: pointer;
+}

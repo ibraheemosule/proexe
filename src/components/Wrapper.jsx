@@ -1,0 +1,15 @@
+import s from "../assets/sass/wrapper.module.scss";
+
+const Wrapper = ({ children, title }) => {
+  return (
+    <div className={s.wrapper}>
+      <div className={s.wrapper_title}>
+        <h2>{title}</h2>
+        {title === "list user" && <button>Add New</button>}
+      </div>
+      <div className={s.wrapper_content}>{children}</div>
+    </div>
+  );
+};
+
+export default Wrapper;

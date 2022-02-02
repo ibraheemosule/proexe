@@ -1,0 +1,57 @@
+@import "./variables";
+
+.wrapper {
+  position: relative;
+  margin-top: 5rem;
+  padding: 0 0 1rem 0;
+  border: 2px solid $borderCol;
+  border-radius: 10px;
+  box-shadow: 12px 13px 6px -18px rgba(0, 0, 0, 0.07);
+
+  &_title {
+    padding: 1rem 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid $borderCol;
+
+    @media (min-width: 576px) {
+      padding: 1rem 1.3rem;
+    }
+
+    h2 {
+      text-transform: capitalize;
+    }
+    button {
+      color: rgba(243, 243, 243, 0.986);
+      background: $btnBgCol;
+      padding: 10px 25px;
+      border: none;
+      outline: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font: {
+        size: 0.8em;
+        weight: 600;
+      }
+      @media (min-width: 576px) {
+        padding: 12px 35px;
+        font-size: 1.2em;
+      }
+    }
+  }
+
+  &_content {
+    padding: 1em;
+    min-height: 30vh;
+    max-height: 70vh;
+    overflow: scroll;
+
+    h3 {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%);
+      letter-spacing: 2px;
+    }
+  }
+}

@@ -1,5 +1,44 @@
 @import "./variables";
 
-.table {
+table {
   border: 2px solid $borderCol;
+  width: 300%;
+  border-collapse: collapse;
+
+  @media (min-width: 576px) {
+    width: 150%;
+  }
+
+  @media (min-width: 992px) {
+    width: 100%;
+  }
+
+  tr {
+    padding: 2rem 0;
+    border-bottom: 2px solid $borderCol;
+
+    td {
+      padding: 1rem 0;
+      width: 14.3%;
+      text-align: center;
+      font-size: 1em;
+
+      @media (min-width: 576px) {
+        padding: 2rem 0;
+      }
+    }
+
+    button {
+      @include btn;
+      background-color: $secBtnBgCol;
+    }
+    .delete {
+      background-color: rgba(156, 4, 4, 0.781);
+    }
+  }
+
+  thead tr {
+    background: rgba(141, 140, 140, 0.096);
+    text-transform: capitalize;
+  }
 }

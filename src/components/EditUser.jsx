@@ -28,8 +28,19 @@ const EditUser = ({ id }) => {
     event.preventDefault();
     const filterUsers = data.filter(user => user.name !== id);
     const checkIfUserExists = filterUsers.some(val => val.name === inputs.name);
+    const isNumPresent = /^[A-Za-z\s]*$/;
+
+    if (!isNumPresent.test(inputs.name)) {
+      setError("Name Should Not Include Digits");
+      return;
+    }
+
     if (checkIfUserExists) {
       setError("User Already Exists");
+      return;
+    }
+    if (dispatch(!isNumPresent(inputs.name))) {
+      setError("Name should not have digits");
       return;
     }
     if (inputs.name && inputs.email) {

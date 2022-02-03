@@ -22,16 +22,18 @@
       text-transform: capitalize;
     }
     button {
-      color: rgba(243, 243, 243, 0.986);
+      @include btn;
       background: $btnBgCol;
       padding: 10px 25px;
-      border: none;
-      outline: none;
-      border-radius: 5px;
-      cursor: pointer;
+
       font: {
         size: 0.8em;
         weight: 600;
+      }
+
+      &:hover {
+        background: $btnBgColHover;
+        color: rgb(206, 203, 203);
       }
       @media (min-width: 576px) {
         padding: 12px 35px;

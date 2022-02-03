@@ -22,11 +22,20 @@ const AddNewUser = () => {
 
   const addNewUser = event => {
     event.preventDefault();
+
     const filterUsers = data.some(user => user.name === inputs.name);
+    const isNumPresent = /^[A-Za-z\s]*$/;
+
+    if (!isNumPresent.test(inputs.name)) {
+      setError("Name Should Not Include Digits");
+      return;
+    }
+
     if (filterUsers) {
       setError("User Already Exists");
       return;
     }
+
     if (inputs.name && inputs.email) {
       dispatch(fetched([...data, inputs]));
       setError("");

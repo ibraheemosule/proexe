@@ -3,14 +3,17 @@ import s from "../assets/sass/table.module.scss";
 import Wrapper from "../components/Wrapper";
 import Modal from "../components/Modal";
 import DeleteComponent from "../components/DeleteComponent";
+import { useDispatch } from "react-redux";
 import EditUser from "../components/EditUser";
 import { useSelector } from "react-redux";
+import { fetched } from "../store/actions";
 
 const TableComponent = () => {
   const titles = ["id", "name", "username", "email", "city", "edit", "delete"];
   const [id, setId] = useState(null);
   const deleteModal = createRef();
   const editModal = createRef();
+  const dispatch = useDispatch();
 
   const data = useSelector(state => state.data);
 
@@ -24,13 +27,38 @@ const TableComponent = () => {
     editModal.current.style.display = "flex";
   };
 
+  const sortInAscending = () => {
+    const sortData = [...data].sort((a, b) =>
+      b.username.toLowerCase() < a.username.toLowerCase() ? 1 : -1
+    );
+    dispatch(fetched(sortData));
+  };
+
+  const sortInDescending = () => {
+    const sortData = [...data].sort((a, b) =>
+      b.username.toLowerCase() > a.username.toLowerCase() ? 1 : -1
+    );
+    dispatch(fetched(sortData));
+  };
+
   return (
     <Wrapper title="list user">
       <table>
         <thead>
           <tr className={s.head}>
             {titles.map(title => (
-              <td key={title}>{title}</td>
+              <td key={title}>
+                {title}
+                {title === "username" && (
+                  <div className={s.icons}>
+                    <button className={s.up} onClick={sortInAscending}></button>
+                    <button
+                      className={s.down}
+                      onClick={sortInDescending}
+                    ></button>
+                  </div>
+                )}{" "}
+              </td>
             ))}
           </tr>
         </thead>

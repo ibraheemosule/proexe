@@ -18,6 +18,7 @@ table {
     border-bottom: 2px solid $borderCol;
 
     td {
+      position: relative;
       padding: 1rem 0;
       width: 14.3%;
       text-align: center;
@@ -32,14 +33,54 @@ table {
     button {
       @include btn;
       background-color: $secBtnBgCol;
+
+      &:hover {
+        background: $secBtnBgColHover;
+        color: rgb(196, 191, 191);
+      }
     }
     .delete {
-      background-color: rgba(156, 4, 4, 0.781);
+      background-color: $dangerBtnCol;
+      &:hover {
+        background: $dangerBtnColHover;
+        color: rgb(196, 191, 191);
+      }
     }
   }
 
   thead tr {
     background: rgba(141, 140, 140, 0.096);
     text-transform: capitalize;
+
+    .username {
+    }
+
+    .icons {
+      position: absolute;
+      display: inline-block;
+      right: 5%;
+      top: 50%;
+      transform: translateY(-50%);
+      button {
+        display: block;
+        background: transparent;
+        margin: 0;
+        padding: 0;
+        width: 0;
+        height: 0;
+        border-left: 7px solid transparent;
+        border-right: 7px solid transparent;
+        border-bottom: 14px solid gray;
+
+        &:hover {
+          border-bottom-color: rgba(128, 128, 128, 0.445);
+        }
+      }
+      .down {
+        margin-top: 5px;
+        transform: rotate(180deg);
+        transform-origin: 50%;
+      }
+    }
   }
 }

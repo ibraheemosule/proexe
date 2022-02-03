@@ -3,30 +3,30 @@ const initialState = {
   data: [
     {
       name: "John Smith0",
-      username: "Jane Smith",
+      username: "fJane Smith",
       email: "john@smith.com",
       city: "fdkjfjajfd",
     },
     {
       name: "John Smith1",
-      username: "Jane Smith",
+      username: "fsJane Smith",
       email: "john@smith.com",
       city: "fdkjfjajfd",
     },
     {
       name: "John Smith2",
-      username: "Jane Smith",
+      username: "ffaJane Smith",
       email: "john@smith.com",
       city: "fdkjfjajfd",
     },
     {
       name: "John Smith3",
-      username: "Jane Smith",
+      username: "dsaJane Smith",
       email: "john@smith.com",
       city: "fdkjfjajfd",
     },
     {
-      name: "John Smith4",
+      name: "Jdsagohn Smith4",
       username: "Jane Smith",
       email: "john@smith.com",
       city: "fdkjfjajfd",

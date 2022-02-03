@@ -1,7 +1,10 @@
 $borderCol: rgba(128, 128, 128, 0.301);
 $btnBgCol: rgba(0, 0, 255, 0.527);
+$btnBgColHover: rgba(0, 0, 225, 0.4);
 $secBtnBgCol: rgba(255, 153, 0, 0.767);
+$secBtnBgColHover: rgba(255, 153, 0, 0.467);
 $dangerBtnCol: rgba(156, 4, 4, 0.781);
+$dangerBtnColHover: rgba(156, 4, 4, 0.581);
 
 @mixin btn {
   padding: 1em 2em;
@@ -11,4 +14,5 @@ $dangerBtnCol: rgba(156, 4, 4, 0.781);
   font-weight: 700;
   color: rgb(240, 239, 239);
   cursor: pointer;
+  transition: all 0.3s ease;
 }

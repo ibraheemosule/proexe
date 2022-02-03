@@ -1,11 +1,13 @@
 import s from "../assets/sass/edit-user.module.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { useRef, useState } from "react";
-import { fetched } from "../store/actions";
+import { fetched, editData } from "../store/actions";
+import loader from "../assets/img/loader.gif";
 
 const EditUser = ({ id }) => {
   const titles = ["name", "username", "email", "city"];
   const data = useSelector(state => state.data);
+  const fetching = useSelector(state => state.loading);
   const cancelButton = useRef(null);
   const [inputs, setInputs] = useState({});
   const [error, setError] = useState("");
@@ -28,8 +30,9 @@ const EditUser = ({ id }) => {
     setInputs({ ...inputs, [name]: event.target.value });
   };
 
-  const submitEdits = event => {
+  const submitEdits = async event => {
     event.preventDefault();
+    await dispatch(editData());
     const filterUsers = data.filter(user => user.name !== id);
     const checkIfUserExists = filterUsers.some(val => val.name === inputs.name);
     const isNumPresent = /^[A-Za-z\s]*$/;
@@ -43,10 +46,7 @@ const EditUser = ({ id }) => {
       setError("User Already Exists");
       return;
     }
-    if (dispatch(!isNumPresent(inputs.name))) {
-      setError("Name should not have digits");
-      return;
-    }
+
     if (inputs.name && inputs.email && inputs.username) {
       dispatch(fetched([...filterUsers, inputs]));
       setError("");
@@ -77,9 +77,12 @@ const EditUser = ({ id }) => {
           <button ref={cancelButton} onClick={closeModal}>
             CANCEL
           </button>
-          <button onClick={submitEdits}>EDIT</button>
+          <button onClick={submitEdits}>
+            {fetching ? "PROCESSING" : "EDIT"}
+          </button>
         </div>
       </form>
+      {fetching && <img src={loader} alt="loader" />}
     </div>
   );
 };

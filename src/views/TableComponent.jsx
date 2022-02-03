@@ -46,7 +46,7 @@ const TableComponent = () => {
   return (
     <Wrapper title="list user">
       {fetching ? (
-        <img src={loader} />
+        <img src={loader} alt="loader" />
       ) : (
         <table>
           <thead>

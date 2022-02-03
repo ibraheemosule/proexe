@@ -3,11 +3,13 @@ import s from "../assets/sass/add-new-user.module.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
-import { fetched } from "../store/actions";
+import { fetched, editData } from "../store/actions";
+import loader from "../assets/img/loader.gif";
 
 const AddNewUser = () => {
   const titles = ["name", "username", "email", "city"];
   const data = useSelector(state => state.data);
+  const fetching = useSelector(state => state.loading);
   const cancelButton = useRef(null);
   const [inputs, setInputs] = useState({});
   const [error, setError] = useState("");
@@ -24,9 +26,9 @@ const AddNewUser = () => {
     setInputs({ ...inputs, [name]: event.target.value });
   };
 
-  const addNewUser = event => {
+  const addNewUser = async event => {
     event.preventDefault();
-
+    await dispatch(editData());
     const filterUsers = data.some(user => user.name === inputs.name);
     const isNumPresent = /^[A-Za-z\s]*$/;
 
@@ -71,10 +73,14 @@ const AddNewUser = () => {
             <button ref={cancelButton} onClick={() => navigate("/table")}>
               CANCEL
             </button>
-            <button onClick={addNewUser}>ADD</button>
+            <button onClick={addNewUser}>
+              {" "}
+              {fetching ? "PROCESSING" : "ADD"}
+            </button>
           </div>
         </form>
       </div>
+      {fetching && <img src={loader} alt="loader" />}
     </Wrapper>
   );
 };

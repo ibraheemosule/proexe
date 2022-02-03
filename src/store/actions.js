@@ -28,7 +28,33 @@ export const fetchData = url => {
       const res = await axios.get(url);
       dispatch(fetched(res.data));
     } catch (err) {
-      dispatch(errorMessage(err.message));
+      dispatch(errorMessage("Network Error"));
+    } finally {
+      dispatch(fetchingData());
+    }
+  };
+};
+
+export const editData = () => {
+  return async dispatch => {
+    dispatch(fetchingData());
+    dispatch(errorMessage(""));
+    try {
+      const post = await axios.post(
+        "https://jsonplaceholder.typicode.com/posts",
+        {
+          body: JSON.stringify({
+            title: "foo",
+            body: "bar",
+            userId: 1,
+          }),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        }
+      );
+    } catch {
+      dispatch(errorMessage("Network Error"));
     } finally {
       dispatch(fetchingData());
     }

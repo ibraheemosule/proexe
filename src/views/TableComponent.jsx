@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import EditUser from "../components/EditUser";
 import { useSelector } from "react-redux";
 import { fetched } from "../store/actions";
+import loader from "../assets/img/loader.gif";
 
 const TableComponent = () => {
   const titles = ["id", "name", "username", "email", "city", "edit", "delete"];
@@ -16,6 +17,7 @@ const TableComponent = () => {
   const dispatch = useDispatch();
 
   const data = useSelector(state => state.data);
+  const fetching = useSelector(state => state.loading);
 
   const deleteUserFunction = id => {
     setId(id);
@@ -43,56 +45,63 @@ const TableComponent = () => {
 
   return (
     <Wrapper title="list user">
-      <table>
-        <thead>
-          <tr className={s.head}>
-            {titles.map(title => (
-              <td key={title}>
-                {title}
-                {title === "username" && (
-                  <div className={s.icons}>
-                    <button className={s.up} onClick={sortInAscending}></button>
-                    <button
-                      className={s.down}
-                      onClick={sortInDescending}
-                    ></button>
-                  </div>
-                )}{" "}
-              </td>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((val, i) => (
-            <tr key={i + Math.random() * 1000}>
-              <td>{i + 1}</td>
-              <td>{val.name}</td>
-              <td>{val.username || "Null"}</td>
-              <td>{val.email}</td>
-              <td>{val.city || "Null"}</td>
-              <td>
-                <button
-                  className={s.edit}
-                  onClick={() => editUserFunction(val.name)}
-                >
-                  {" "}
-                  Edit
-                </button>
-              </td>
-              <td>
-                <button
-                  className={s.delete}
-                  onClick={() => deleteUserFunction(val.name)}
-                >
-                  {" "}
-                  Delete
-                </button>
-              </td>
+      {fetching ? (
+        <img src={loader} />
+      ) : (
+        <table>
+          <thead>
+            <tr className={s.head}>
+              {titles.map(title => (
+                <td key={title}>
+                  {title}
+                  {title === "username" && (
+                    <div className={s.icons}>
+                      <button
+                        className={s.up}
+                        onClick={sortInAscending}
+                      ></button>
+                      <button
+                        className={s.down}
+                        onClick={sortInDescending}
+                      ></button>
+                    </div>
+                  )}{" "}
+                </td>
+              ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
-      {!data.length && <h3>List is Empty</h3>}
+          </thead>
+          <tbody>
+            {data.map((val, i) => (
+              <tr key={i + Math.random() * 1000}>
+                <td>{i + 1}</td>
+                <td>{val.name}</td>
+                <td>{val.username || "Null"}</td>
+                <td>{val.email}</td>
+                <td>{val.address.city || "Null"}</td>
+                <td>
+                  <button
+                    className={s.edit}
+                    onClick={() => editUserFunction(val.name)}
+                  >
+                    {" "}
+                    Edit
+                  </button>
+                </td>
+                <td>
+                  <button
+                    className={s.delete}
+                    onClick={() => deleteUserFunction(val.name)}
+                  >
+                    {" "}
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+      {!data.length && !fetching && <h3>List is Empty</h3>}
       <Modal ref={deleteModal}>
         <DeleteComponent id={id} />
       </Modal>

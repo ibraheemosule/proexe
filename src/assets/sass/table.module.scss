@@ -19,20 +19,44 @@ table {
 
     td {
       position: relative;
-      padding: 1rem 0;
-      width: 14.3%;
+      padding: 1rem 0.5rem;
+      width: 18.75%;
       text-align: center;
-      font-size: 1em;
+      font-size: 0.8em;
+      font-weight: 600;
       word-break: break-all;
 
       @media (min-width: 576px) {
-        padding: 2rem 0;
+        padding: 2rem 0.2rem;
+        font-size: 0.8em;
+      }
+      @media (min-width: 1240px) {
+        font-size: 0.9em;
       }
     }
 
+    td:first-of-type {
+      width: 5%;
+      padding: 0;
+    }
+    td:last-of-type {
+      width: 10%;
+    }
+    td:nth-of-type(6) {
+      width: 10%;
+    }
     button {
       @include btn;
       background-color: $secBtnBgCol;
+      padding: 0.8em 1em;
+
+      @media (min-width: 576px) {
+        padding: 1em 2em;
+      }
+
+      @media (min-width: 992px) {
+        padding: 0.8em 1em;
+      }
 
       &:hover {
         background: $secBtnBgColHover;
@@ -52,13 +76,14 @@ table {
     background: rgba(141, 140, 140, 0.096);
     text-transform: capitalize;
 
-    .username {
+    td {
+      font-size: 1rem;
     }
 
     .icons {
       position: absolute;
       display: inline-block;
-      right: 5%;
+      right: 15%;
       top: 50%;
       transform: translateY(-50%);
       button {

@@ -30,6 +30,7 @@
     button {
       @include btn;
       background-color: $secBtnBgCol;
+      padding: 0.8em 1em;
 
       &:hover {
         background: $secBtnBgColHover;

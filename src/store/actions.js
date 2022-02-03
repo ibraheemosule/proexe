@@ -26,7 +26,7 @@ export const fetchData = url => {
     dispatch(errorMessage(""));
     try {
       const res = await axios.get(url);
-      dispatch(fetched(res));
+      dispatch(fetched(res.data));
     } catch (err) {
       dispatch(errorMessage(err.message));
     } finally {

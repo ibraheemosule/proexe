@@ -21,6 +21,10 @@ const EditUser = ({ id }) => {
   const handleChange = event => {
     setError("");
     const name = event.target.name;
+    if (name === "city") {
+      setInputs({ ...inputs, address: { city: event.target.value } });
+      return;
+    }
     setInputs({ ...inputs, [name]: event.target.value });
   };
 
@@ -43,18 +47,18 @@ const EditUser = ({ id }) => {
       setError("Name should not have digits");
       return;
     }
-    if (inputs.name && inputs.email) {
+    if (inputs.name && inputs.email && inputs.username) {
       dispatch(fetched([...filterUsers, inputs]));
       setError("");
       closeModal(event);
     } else {
-      setError("Name and Email Field Required");
+      setError("Name, Email and Username Required");
     }
   };
 
   return (
     <div className={s.edit}>
-      <h4 className={s.confirmation}>Confirm Edit</h4>
+      <h4 className={s.confirmation}>Edit {id} Details</h4>
       <form onSubmit={submitEdits}>
         {titles.map(val => (
           <div key={val}>
@@ -70,12 +74,10 @@ const EditUser = ({ id }) => {
         ))}
         {error && <span className={s.error}>{error}</span>}
         <div className={s.btn_group}>
-          <button className={s.edit} ref={cancelButton} onClick={closeModal}>
+          <button ref={cancelButton} onClick={closeModal}>
             CANCEL
           </button>
-          <button className={s.edit} onClick={submitEdits}>
-            EDIT
-          </button>
+          <button onClick={submitEdits}>EDIT</button>
         </div>
       </form>
     </div>

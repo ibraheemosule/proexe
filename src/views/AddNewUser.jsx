@@ -17,6 +17,10 @@ const AddNewUser = () => {
   const handleChange = event => {
     setError("");
     const name = event.target.name;
+    if (name === "city") {
+      setInputs({ ...inputs, address: { city: event.target.value } });
+      return;
+    }
     setInputs({ ...inputs, [name]: event.target.value });
   };
 
@@ -36,12 +40,12 @@ const AddNewUser = () => {
       return;
     }
 
-    if (inputs.name && inputs.email) {
+    if (inputs.name && inputs.email && inputs.username) {
       dispatch(fetched([...data, inputs]));
       setError("");
       navigate("/table");
     } else {
-      setError("Name and Email Field Required");
+      setError("Name, Email and Username Required");
     }
   };
 
@@ -64,16 +68,10 @@ const AddNewUser = () => {
           ))}
           {error && <span className={s.error}>{error}</span>}
           <div className={s.btn_group}>
-            <button
-              className={s.edit}
-              ref={cancelButton}
-              onClick={() => navigate("/table")}
-            >
+            <button ref={cancelButton} onClick={() => navigate("/table")}>
               CANCEL
             </button>
-            <button className={s.edit} onClick={addNewUser}>
-              ADD
-            </button>
+            <button onClick={addNewUser}>ADD</button>
           </div>
         </form>
       </div>

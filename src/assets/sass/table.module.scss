@@ -22,6 +22,7 @@ table {
       width: 14.3%;
       text-align: center;
       font-size: 1em;
+      word-break: break-all;
 
       @media (min-width: 576px) {
         padding: 2rem 0;

@@ -1,9 +1,9 @@
 import { useState, createRef } from "react";
 import s from "../assets/sass/table.module.scss";
-import Wrapper from "./Wrapper";
-import Modal from "./Modal";
-import DeleteComponent from "./DeleteComponent";
-import EditUser from "./EditUser";
+import Wrapper from "../components/Wrapper";
+import Modal from "../components/Modal";
+import DeleteComponent from "../components/DeleteComponent";
+import EditUser from "../components/EditUser";
 import { useSelector } from "react-redux";
 
 const TableComponent = () => {

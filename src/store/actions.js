@@ -40,19 +40,16 @@ export const editData = () => {
     dispatch(fetchingData());
     dispatch(errorMessage(""));
     try {
-      const post = await axios.post(
-        "https://jsonplaceholder.typicode.com/posts",
-        {
-          body: JSON.stringify({
-            title: "foo",
-            body: "bar",
-            userId: 1,
-          }),
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-          },
-        }
-      );
+      await axios.post("https://jsonplaceholder.typicode.com/posts", {
+        body: JSON.stringify({
+          title: "foo",
+          body: "bar",
+          userId: 1,
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
     } catch {
       dispatch(errorMessage("Network Error"));
     } finally {

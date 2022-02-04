@@ -1,4 +1,4 @@
-import { useState, createRef } from "react";
+import { useState } from "react";
 import s from "../assets/sass/table.module.scss";
 import Wrapper from "../components/Wrapper";
 import Modal from "../components/Modal";
@@ -12,21 +12,24 @@ import loader from "../assets/img/loader.gif";
 const TableComponent = () => {
   const titles = ["id", "name", "username", "email", "city", "edit", "delete"];
   const [id, setId] = useState(null);
-  const deleteModal = createRef();
-  const editModal = createRef();
+  const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState("");
   const dispatch = useDispatch();
 
   const data = useSelector(state => state.data);
   const fetching = useSelector(state => state.loading);
+  const error = useSelector(state => state.error);
 
   const deleteUserFunction = id => {
+    setModalType(() => "delete");
+    setShowModal(showModal => !showModal);
     setId(id);
-    deleteModal.current.style.display = "flex";
   };
 
   const editUserFunction = id => {
+    setModalType(() => "edit");
+    setShowModal(showModal => !showModal);
     setId(id);
-    editModal.current.style.display = "flex";
   };
 
   const sortInAscending = () => {
@@ -45,7 +48,7 @@ const TableComponent = () => {
 
   return (
     <Wrapper title="list user">
-      {fetching ? (
+      {fetching && !data.length ? (
         <img src={loader} alt="loader" />
       ) : (
         <table>
@@ -77,7 +80,7 @@ const TableComponent = () => {
                 <td>{val.name}</td>
                 <td>{val.username || "Null"}</td>
                 <td>{val.email}</td>
-                <td>{val.address.city || "Null"}</td>
+                <td>{val.address?.city || "Null"}</td>
                 <td>
                   <button
                     className={s.edit}
@@ -101,13 +104,24 @@ const TableComponent = () => {
           </tbody>
         </table>
       )}
-      {!data.length && !fetching && <h3>List is Empty</h3>}
-      <Modal ref={deleteModal}>
-        <DeleteComponent id={id} />
-      </Modal>
-      <Modal ref={editModal}>
-        <EditUser id={id} />
-      </Modal>
+      {!data.length && !fetching && !error ? (
+        <h3>List is Empty</h3>
+      ) : error ? (
+        <h3>{error}</h3>
+      ) : (
+        ""
+      )}
+      {showModal && (
+        <>
+          <Modal showModal={showModal}>
+            {modalType === "delete" ? (
+              <DeleteComponent id={id} setShowModal={setShowModal} />
+            ) : (
+              <EditUser id={id} setShowModal={setShowModal} />
+            )}
+          </Modal>
+        </>
+      )}
     </Wrapper>
   );
 };

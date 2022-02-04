@@ -3,17 +3,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { deleteUser } from "../store/actions";
 import { useRef } from "react";
 
-const DeleteComponent = ({ id }) => {
+const DeleteComponent = ({ id, setShowModal }) => {
   const data = useSelector(state => state.data);
   const cancelButton = useRef(null);
-
-  const closeModal = () => {
-    const modalNode = cancelButton.current.parentNode.parentNode.parentNode;
-    modalNode.style.display = "none";
-    modalNode.parentNode.style.overflow = "scroll";
-  };
-
   const dispatch = useDispatch();
+
+  const closeModal = () => setShowModal(showModal => !showModal);
 
   const handleDelete = () => {
     dispatch(deleteUser(data, id));

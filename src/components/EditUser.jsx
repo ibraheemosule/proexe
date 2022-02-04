@@ -4,21 +4,17 @@ import { useRef, useState } from "react";
 import { fetched, editData } from "../store/actions";
 import loader from "../assets/img/loader.gif";
 
-const EditUser = ({ id }) => {
+const EditUser = ({ id, setShowModal }) => {
   const titles = ["name", "username", "email", "city"];
   const data = useSelector(state => state.data);
   const fetching = useSelector(state => state.loading);
   const cancelButton = useRef(null);
+  const user = data.filter(val => val.name === id);
   const [inputs, setInputs] = useState({});
   const [error, setError] = useState("");
   const dispatch = useDispatch();
 
-  const closeModal = e => {
-    e.preventDefault();
-    const modalNode =
-      cancelButton.current.parentNode.parentNode.parentNode.parentNode;
-    modalNode.style.display = "none";
-  };
+  const closeModal = () => setShowModal(show => !show);
 
   const handleChange = event => {
     setError("");
@@ -32,12 +28,18 @@ const EditUser = ({ id }) => {
 
   const submitEdits = async event => {
     event.preventDefault();
+
     await dispatch(editData());
-    const filterUsers = data.filter(user => user.name !== id);
-    const checkIfUserExists = filterUsers.some(val => val.name === inputs.name);
+
+    const newValue = { ...user[0], ...inputs };
+
+    const filterUsers = data.filter(user => user.name !== newValue.name);
+    const checkIfUserExists = filterUsers.some(
+      val => val.name === newValue.name
+    );
     const isNumPresent = /^[A-Za-z\s]*$/;
 
-    if (!isNumPresent.test(inputs.name)) {
+    if (!isNumPresent.test(newValue.name)) {
       setError("Name Should Not Include Digits");
       return;
     }
@@ -47,9 +49,10 @@ const EditUser = ({ id }) => {
       return;
     }
 
-    if (inputs.name && inputs.email && inputs.username) {
-      dispatch(fetched([...filterUsers, inputs]));
+    if (newValue.name && newValue.email && newValue.username) {
+      dispatch(fetched([...filterUsers, newValue]));
       setError("");
+      event.target.innerHtml = "";
       closeModal(event);
     } else {
       setError("Name, Email and Username Required");
@@ -65,6 +68,13 @@ const EditUser = ({ id }) => {
             <label htmlFor={val}>{val}: </label>
             <input
               onChange={handleChange}
+              defaultValue={
+                user.length
+                  ? val === "city"
+                    ? user[0].address[`${val}`]
+                    : user[0][`${val}`]
+                  : ""
+              }
               id={val}
               name={val}
               type={val === "email" ? val : "text"}
@@ -77,9 +87,7 @@ const EditUser = ({ id }) => {
           <button ref={cancelButton} onClick={closeModal}>
             CANCEL
           </button>
-          <button onClick={submitEdits}>
-            {fetching ? "PROCESSING" : "EDIT"}
-          </button>
+          <button type="submit">{fetching ? "PROCESSING" : "EDIT"}</button>
         </div>
       </form>
       {fetching && <img src={loader} alt="loader" />}

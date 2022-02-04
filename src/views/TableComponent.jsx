@@ -11,7 +11,7 @@ import loader from "../assets/img/loader.gif";
 
 const TableComponent = () => {
   const titles = ["id", "name", "username", "email", "city", "edit", "delete"];
-  const [id, setId] = useState(null);
+  const [name, setName] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState("");
   const dispatch = useDispatch();
@@ -20,16 +20,16 @@ const TableComponent = () => {
   const fetching = useSelector(state => state.loading);
   const error = useSelector(state => state.error);
 
-  const deleteUserFunction = id => {
+  const deleteUserFunction = name => {
     setModalType(() => "delete");
     setShowModal(showModal => !showModal);
-    setId(id);
+    setName(name);
   };
 
-  const editUserFunction = id => {
+  const editUserFunction = name => {
     setModalType(() => "edit");
     setShowModal(showModal => !showModal);
-    setId(id);
+    setName(name);
   };
 
   const sortInAscending = () => {
@@ -115,9 +115,9 @@ const TableComponent = () => {
         <>
           <Modal showModal={showModal}>
             {modalType === "delete" ? (
-              <DeleteComponent id={id} setShowModal={setShowModal} />
+              <DeleteComponent name={name} setShowModal={setShowModal} />
             ) : (
-              <EditUser id={id} setShowModal={setShowModal} />
+              <EditUser name={name} setShowModal={setShowModal} />
             )}
           </Modal>
         </>

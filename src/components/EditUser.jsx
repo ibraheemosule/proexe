@@ -4,12 +4,13 @@ import { useRef, useState } from "react";
 import { fetched, editData } from "../store/actions";
 import loader from "../assets/img/loader.gif";
 
-const EditUser = ({ id, setShowModal }) => {
+const EditUser = ({ name, setShowModal }) => {
   const titles = ["name", "username", "email", "city"];
   const data = useSelector(state => state.data);
   const fetching = useSelector(state => state.loading);
   const cancelButton = useRef(null);
-  const user = data.filter(val => val.name === id);
+  const user = data.filter(val => val.name === name);
+  const id = data.map(user => user.name).indexOf(name);
   const [inputs, setInputs] = useState({});
   const [error, setError] = useState("");
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ const EditUser = ({ id, setShowModal }) => {
     const newValue = { ...user[0], ...inputs };
 
     const filterUsers = data.filter(user => user.name !== newValue.name);
+    let filteredUser = data.filter(user => user.name === newValue.name)[0];
     const checkIfUserExists = filterUsers.some(
       val => val.name === newValue.name
     );
@@ -50,7 +52,9 @@ const EditUser = ({ id, setShowModal }) => {
     }
 
     if (newValue.name && newValue.email && newValue.username) {
-      dispatch(fetched([...filterUsers, newValue]));
+      filteredUser = { ...filteredUser, ...newValue };
+      filterUsers.splice(id, 1, filteredUser);
+      dispatch(fetched([...filterUsers]));
       setError("");
       event.target.innerHtml = "";
       closeModal(event);
@@ -61,7 +65,7 @@ const EditUser = ({ id, setShowModal }) => {
 
   return (
     <div className={s.edit}>
-      <h4 className={s.confirmation}>Edit {id} Details</h4>
+      <h4 className={s.confirmation}>Edit {name} Details</h4>
       <form onSubmit={submitEdits}>
         {titles.map(val => (
           <div key={val}>

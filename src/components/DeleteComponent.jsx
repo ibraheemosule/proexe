@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { deleteUser } from "../store/actions";
 import { useRef } from "react";
 
-const DeleteComponent = ({ id, setShowModal }) => {
+const DeleteComponent = ({ name, setShowModal }) => {
   const data = useSelector(state => state.data);
   const cancelButton = useRef(null);
   const dispatch = useDispatch();
@@ -11,7 +11,7 @@ const DeleteComponent = ({ id, setShowModal }) => {
   const closeModal = () => setShowModal(showModal => !showModal);
 
   const handleDelete = () => {
-    dispatch(deleteUser(data, id));
+    dispatch(deleteUser(data, name));
     closeModal();
   };
 

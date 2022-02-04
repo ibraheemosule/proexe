@@ -48,7 +48,11 @@ table {
     button {
       @include btn;
       background-color: $secBtnBgCol;
-      padding: 0.8em 1em;
+      padding: 0.8em 0.2em;
+
+      @media (min-width: 350px) {
+        padding: 0.8em 1em;
+      }
 
       @media (min-width: 992px) {
         padding: 0.8em 1em;

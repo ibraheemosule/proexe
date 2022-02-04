@@ -36,9 +36,17 @@ const EditUser = ({ name, setShowModal }) => {
 
     const filterUsers = data.filter(user => user.name !== newValue.name);
     let filteredUser = data.filter(user => user.name === newValue.name)[0];
-    const checkIfUserExists = filterUsers.some(
-      val => val.name === newValue.name
-    );
+    const names = [...data.map(val => val.name), newValue.name];
+
+    const checkIfUserExists = () => {
+      const doesNameExist = names.indexOf(newValue.name) + 1;
+      let checkName = true;
+      if (doesNameExist > 0)
+        checkName =
+          names.indexOf(newValue.name) === names.lastIndexOf(newValue.name);
+      const verify = names.indexOf(newValue.name) !== id;
+      if (!checkName && verify) return true;
+    };
     const isNumPresent = /^[A-Za-z\s]*$/;
 
     if (!isNumPresent.test(newValue.name)) {
@@ -46,14 +54,14 @@ const EditUser = ({ name, setShowModal }) => {
       return;
     }
 
-    if (checkIfUserExists) {
+    if (checkIfUserExists()) {
       setError("User Already Exists");
       return;
     }
 
     if (newValue.name && newValue.email && newValue.username) {
       filteredUser = { ...filteredUser, ...newValue };
-      filterUsers.splice(id, 1, filteredUser);
+      filterUsers.splice(id, 0, filteredUser);
       dispatch(fetched([...filterUsers]));
       setError("");
       event.target.innerHtml = "";

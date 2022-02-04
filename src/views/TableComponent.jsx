@@ -106,7 +106,7 @@ const TableComponent = () => {
       )}
       {!data.length && !fetching && !error ? (
         <h3>List is Empty</h3>
-      ) : error ? (
+      ) : error && !data.length ? (
         <h3>{error}</h3>
       ) : (
         ""

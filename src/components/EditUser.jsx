@@ -61,7 +61,7 @@ const EditUser = ({ name, setShowModal }) => {
 
     if (newValue.name && newValue.email && newValue.username) {
       filteredUser = { ...filteredUser, ...newValue };
-      filterUsers.splice(id, 0, filteredUser);
+      filterUsers.splice(id, 1, filteredUser);
       dispatch(fetched([...filterUsers]));
       setError("");
       event.target.innerHtml = "";

@@ -76,7 +76,7 @@ const TableComponent = () => {
           <tbody>
             {data.map((val, i) => (
               <tr key={i + Math.random() * 1000}>
-                <td>{i + 1}</td>
+                <td>{val.id}</td>
                 <td>{val.name}</td>
                 <td>{val.username || "Null"}</td>
                 <td>{val.email}</td>

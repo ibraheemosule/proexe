@@ -1,16 +1,22 @@
 import s from "../assets/sass/delete.module.scss";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteUser } from "../store/actions";
+import { deleteUser, editData, errorMessage } from "../store/actions";
 import { useRef } from "react";
+import loader from "../assets/img/loader.gif";
 
 const DeleteComponent = ({ name, setShowModal }) => {
   const data = useSelector(state => state.data);
+  const fetching = useSelector(state => state.loading);
   const cancelButton = useRef(null);
   const dispatch = useDispatch();
 
-  const closeModal = () => setShowModal(showModal => !showModal);
+  const closeModal = () => {
+    dispatch(errorMessage(""));
+    setShowModal(showModal => !showModal);
+  };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
+    await dispatch(editData());
     dispatch(deleteUser(data, name));
     closeModal();
   };
@@ -19,7 +25,12 @@ const DeleteComponent = ({ name, setShowModal }) => {
     <div className={s.delete}>
       <h4 className={s.confirmation}>Confirm Delete</h4>
       <div>
-        <button className={s.edit} ref={cancelButton} onClick={closeModal}>
+        <button
+          disabled={fetching ? true : false}
+          className={s.edit}
+          ref={cancelButton}
+          onClick={closeModal}
+        >
           {" "}
           CANCEL
         </button>
@@ -28,6 +39,7 @@ const DeleteComponent = ({ name, setShowModal }) => {
           DELETE
         </button>
       </div>
+      {fetching && <img src={loader} alt="loader" />}
     </div>
   );
 };

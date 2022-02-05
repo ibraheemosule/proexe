@@ -11,6 +11,7 @@ const AddNewUser = () => {
   const data = useSelector(state => state.data);
   const fetching = useSelector(state => state.loading);
   const cancelButton = useRef(null);
+
   const [inputs, setInputs] = useState({});
   const [error, setError] = useState("");
   const dispatch = useDispatch();
@@ -19,16 +20,26 @@ const AddNewUser = () => {
   const handleChange = event => {
     setError("");
     const name = event.target.name;
+
+    let maxId = data.reduce(
+      (prev, next) => (prev.id > next.id ? prev.id : next.id),
+      { id: 0 }
+    );
     if (name === "city") {
-      setInputs({ ...inputs, address: { city: event.target.value } });
+      setInputs({
+        ...inputs,
+        id: ++maxId,
+        address: { city: event.target.value },
+      });
       return;
     }
-    setInputs({ ...inputs, [name]: event.target.value });
+    setInputs({ ...inputs, id: ++maxId, [name]: event.target.value });
   };
 
   const addNewUser = async event => {
     event.preventDefault();
     await dispatch(editData());
+
     const filterUsers = data.some(user => user.name === inputs.name);
     const isNumPresent = /^[A-Za-z\s]*$/;
 

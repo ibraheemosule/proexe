@@ -1,7 +1,7 @@
 import s from "../assets/sass/edit-user.module.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { useRef, useState } from "react";
-import { fetched, editData } from "../store/actions";
+import { fetched, editData, errorMessage } from "../store/actions";
 import loader from "../assets/img/loader.gif";
 
 const EditUser = ({ name, setShowModal }) => {
@@ -15,7 +15,10 @@ const EditUser = ({ name, setShowModal }) => {
   const [error, setError] = useState("");
   const dispatch = useDispatch();
 
-  const closeModal = () => setShowModal(show => !show);
+  const closeModal = () => {
+    dispatch(errorMessage(""));
+    setShowModal(showModal => !showModal);
+  };
 
   const handleChange = event => {
     setError("");
@@ -61,7 +64,10 @@ const EditUser = ({ name, setShowModal }) => {
 
     if (newValue.name && newValue.email && newValue.username) {
       filteredUser = { ...filteredUser, ...newValue };
-      filterUsers.splice(id, 1, filteredUser);
+
+      if (newValue.name === name) filterUsers.splice(id, 0, filteredUser);
+      else filterUsers.splice(id, 1, filteredUser);
+
       dispatch(fetched([...filterUsers]));
       setError("");
       event.target.innerHtml = "";

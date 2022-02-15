@@ -8,6 +8,7 @@ import EditUser from "../components/EditUser";
 import { useSelector } from "react-redux";
 import { fetched } from "../store/actions";
 import loader from "../assets/img/loader.gif";
+import * as _ from "../functions/index.js";
 
 const TableComponent = () => {
   const titles = ["id", "name", "username", "email", "city", "edit", "delete"];
@@ -32,19 +33,23 @@ const TableComponent = () => {
     setName(name);
   };
 
-  const sortInAscending = () => {
-    const sortData = [...data].sort((a, b) =>
-      b.username.toLowerCase() < a.username.toLowerCase() ? 1 : -1
-    );
-    dispatch(fetched(sortData));
+  const sortFunctions = {
+    idAscending: () => dispatch(fetched(_.sortAscending(data, "id"))),
+    idDescending: () => dispatch(fetched(_.sortDescending(data, "id"))),
+    nameAscending: () => dispatch(fetched(_.sortAscending(data, "name"))),
+    nameDescending: () => dispatch(fetched(_.sortDescending(data, "name"))),
+    emailAscending: () => dispatch(fetched(_.sortAscending(data, "email"))),
+    emailDescending: () => dispatch(fetched(_.sortDescending(data, "email"))),
+    cityAscending: () => dispatch(fetched(_.sortAscending(data, "city"))),
+    cityDescending: () => dispatch(fetched(_.sortDescending(data, "city"))),
+    usernameAscending: () =>
+      dispatch(fetched(_.sortAscending(data, "username"))),
+    usernameDescending: () =>
+      dispatch(fetched(_.sortDescending(data, "username"))),
   };
 
-  const sortInDescending = () => {
-    const sortData = [...data].sort((a, b) =>
-      b.username.toLowerCase() > a.username.toLowerCase() ? 1 : -1
-    );
-    dispatch(fetched(sortData));
-  };
+  const callAscending = value => sortFunctions[`${value}Ascending`];
+  const callDescending = value => sortFunctions[`${value}Descending`];
 
   return (
     <Wrapper title="list user">
@@ -56,26 +61,28 @@ const TableComponent = () => {
             <tr className={s.head}>
               {titles.map(title => (
                 <td key={title}>
-                  {title}
-                  {title === "username" && (
-                    <div className={s.icons}>
-                      <button
-                        className={s.up}
-                        onClick={sortInAscending}
-                      ></button>
-                      <button
-                        className={s.down}
-                        onClick={sortInDescending}
-                      ></button>
-                    </div>
-                  )}{" "}
+                  <div className={s.head_wrapper}>
+                    <span>{title}</span>
+                    {title !== "edit" && title !== "delete" && (
+                      <div className={s.icons}>
+                        <button
+                          className={s.up}
+                          onClick={callAscending(title)}
+                        ></button>
+                        <button
+                          className={s.down}
+                          onClick={callDescending(title)}
+                        ></button>
+                      </div>
+                    )}
+                  </div>
                 </td>
               ))}
             </tr>
           </thead>
           <tbody>
             {data.map((val, i) => (
-              <tr key={i + Math.random() * 1000}>
+              <tr key={i + Math.random() * 10000}>
                 <td>{val.id}</td>
                 <td>{val.name}</td>
                 <td>{val.username || "Null"}</td>

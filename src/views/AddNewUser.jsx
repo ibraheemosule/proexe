@@ -38,6 +38,7 @@ const AddNewUser = () => {
 
   const addNewUser = async event => {
     event.preventDefault();
+    window.removeEventListener("keypress", enterKeyPress);
     await dispatch(editData());
 
     const filterUsers = data.some(user => user.name === inputs.name);
@@ -61,6 +62,9 @@ const AddNewUser = () => {
       setError("Name, Email and Username Required");
     }
   };
+
+  const enterKeyPress = e => (e.key === "Enter" ? e.preventDefault() : "");
+  window.addEventListener("keypress", enterKeyPress);
 
   return (
     <Wrapper title="form">

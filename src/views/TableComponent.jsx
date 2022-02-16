@@ -33,23 +33,15 @@ const TableComponent = () => {
     setName(name);
   };
 
-  const sortFunctions = {
-    idAscending: () => dispatch(fetched(_.sortAscending(data, "id"))),
-    idDescending: () => dispatch(fetched(_.sortDescending(data, "id"))),
-    nameAscending: () => dispatch(fetched(_.sortAscending(data, "name"))),
-    nameDescending: () => dispatch(fetched(_.sortDescending(data, "name"))),
-    emailAscending: () => dispatch(fetched(_.sortAscending(data, "email"))),
-    emailDescending: () => dispatch(fetched(_.sortDescending(data, "email"))),
-    cityAscending: () => dispatch(fetched(_.sortAscending(data, "city"))),
-    cityDescending: () => dispatch(fetched(_.sortDescending(data, "city"))),
-    usernameAscending: () =>
-      dispatch(fetched(_.sortAscending(data, "username"))),
-    usernameDescending: () =>
-      dispatch(fetched(_.sortDescending(data, "username"))),
-  };
+  const callAscend =
+    (list = data) =>
+    val =>
+      dispatch(fetched(_.sortAscending(data, val)));
 
-  const callAscending = value => sortFunctions[`${value}Ascending`];
-  const callDescending = value => sortFunctions[`${value}Descending`];
+  const callDescend =
+    (list = data) =>
+    val =>
+      dispatch(fetched(_.sortDescending(data, val)));
 
   return (
     <Wrapper title="list user">
@@ -67,11 +59,11 @@ const TableComponent = () => {
                       <div className={s.icons}>
                         <button
                           className={s.up}
-                          onClick={callAscending(title)}
+                          onClick={() => callAscend()(title)}
                         ></button>
                         <button
                           className={s.down}
-                          onClick={callDescending(title)}
+                          onClick={() => callDescend()(title)}
                         ></button>
                       </div>
                     )}

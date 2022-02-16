@@ -26,7 +26,6 @@ export const fetchData = url => {
     dispatch(errorMessage(""));
     try {
       const res = await axios.get(url);
-      console.log(res.data);
       dispatch(fetched(res.data));
     } catch (err) {
       dispatch(errorMessage("Network Error"));
